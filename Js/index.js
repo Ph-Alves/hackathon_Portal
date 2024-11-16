@@ -7,10 +7,20 @@ const artigos = [
 ];
 
 function verificarInput() {
-    const inputElement = document.getElementById('search-bar');
-    if (inputElement.value != "") {
+    const pesquisa = document.getElementById('search-bar');
+    const resultados = document.getElementById('search-results');
+    const recomendacoes = document.getElementById('recommended-articles');
+    const searchButton = document.getElementById('buscar');
+
+    if (pesquisa.value === "") {
+        resultados.innerHTML = "<p>Por favor, insira um termo para busca.</p>";
+        recomendacoes.innerHTML = '';
+        searchButton.textContent = 'Buscar';
+        searchButton.onclick = performSearch;
+        return;
+    } else {
         performSearch();
-    } 
+    }
 }
 
 
