@@ -77,11 +77,13 @@ function performSearch() {
 function resetSearch() {
     const searchBar = document.getElementById('search-bar');
     const resultsDiv = document.getElementById('search-results');
+    const recomendacoes = document.getElementById('recommended-articles');
     const searchButton = document.getElementById('buscar');
 
 
     searchBar.value = '';
     resultsDiv.innerHTML = '';
+    recomendacoes.innerHTML = '';
 
 
     searchButton.textContent = 'Buscar';
