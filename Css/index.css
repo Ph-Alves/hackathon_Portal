@@ -43,8 +43,8 @@ h2 {
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #002244;
+#buscar:hover {
+    background-color: rgba(241, 100, 33, 1);
 }
 
 ul {
@@ -153,8 +153,8 @@ li {
     width: 15vw;
     height: auto;
     position: absolute;
-    top: 70vh;
-    right: 7vw;
+    top: 80vh;
+    right: 5vw;
     justify-content: center;
     align-items: center;
     padding: 5px 10px 5px 10px;

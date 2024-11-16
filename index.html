@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAPES Periódicos - Apresentação Interativa</title>
+
     <script> window.chtlConfig = { chatbotId: "9494266895" }</script>
     <script async data-id="9494266895" id="chatling-embed-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
-    <link rel="stylesheet" href="/hackathon_Portal/Css/index.css" type="text/css">
-    <link rel="shortcut icon" href="chatbot.png" type="image/x-icon">
+    
+    <link rel="stylesheet" href="/Css/index.css" type="text/css">
+    <link rel="shortcut icon" href="/Img/chatbot.png" type="image/x-icon">
 </head>
 <body>
     <header>
@@ -16,8 +18,8 @@
 
     <section id="search-improvement">
         <h2>Busca por Artigos</h2>
-        <input type="text" id="search-bar" placeholder="Digite título, autor ou palavra-chave..." oninput="performSearch()"/>
-        <button id="buscar" onclick="performSearch()">Buscar</button>
+        <input type="text" id="search-bar" placeholder="Digite título, autor ou palavra-chave... " oninput="verificarInput()">
+        <button id="buscar" onclick="verificarInput()">Buscar</button>
         <div id="search-results"></div>
     </section>
 
@@ -34,6 +36,7 @@
             <h2 id="popuptext">Utilize nosso assistente caso necessite de alguma ajuda!😊</h2>
         </div>
 
-    <script src="/hackathon_Portal/Js/index.js"></script>
+    <script src="/Js/index.js"></script>
+</html>
 </body>
 </html>

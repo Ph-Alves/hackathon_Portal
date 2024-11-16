@@ -6,21 +6,26 @@ const artigos = [
     { titulo: "Recursos renováveis em cidades inteligentes", autor: "Giovanna Siqueira", palavraChave: ["Renovável", "Cidades inteligentes", "Ambiente"] }
 ];
 
-function debounce(func, wait) {
-    let timeout;
-    return function (...args) {
-        const context = this;
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(context, args), wait);
-    };
+function verificarInput() {
+    const inputElement = document.getElementById('search-bar');
+    if (inputElement.value != "") {
+        performSearch();
+    } 
 }
 
-const performSearchDebounced = debounce(performSearch, 300);
 
 function performSearch() {
-    const pesquisa = document.getElementById('search-bar').value.toLowerCase().addEventListener('input', performSearchDebounced);;
+    const pesquisa = document.getElementById('search-bar').value.toLowerCase().trim();
     const resultados = document.getElementById('search-results');
-    const recomendacoes = document.getElementById('recommended-artigos');
+    const recomendacoes = document.getElementById('recommended-articles');
+    const searchButton = document.getElementById('buscar');
+
+    if (pesquisa === '') {
+        searchButton.textContent = 'Buscar';
+        searchButton.onclick = performSearch;
+        resultsDiv.innerHTML = '';
+        return;
+    }
 
     if (!pesquisa) {
         resultados.innerHTML = "<p>Por favor, insira um termo para busca.</p>";
@@ -28,10 +33,10 @@ function performSearch() {
         return;
     }
 
-    const filteredResults = artigos.filter(article =>
-        article.titulo.toLowerCase().includes(pesquisa) ||
-        article.autor.toLowerCase().includes(pesquisa) ||
-        article.palavraChave.some(keyword => keyword.toLowerCase().includes(pesquisa))
+    const filteredResults = artigos.filter(artigos =>
+        artigos.titulo.toLowerCase().includes(pesquisa) ||
+        artigos.autor.toLowerCase().includes(pesquisa) ||
+        artigos.palavraChave.some(keyword => keyword.toLowerCase().includes(pesquisa))
     );
 
     
@@ -39,11 +44,11 @@ function performSearch() {
         resultados.innerHTML = `
             <p>Resultados para "<b>${pesquisa}</b>":</p>
             <ul>
-                ${filteredResults.map(article => `
+                ${filteredResults.map(artigos => `
                     <li>
-                        <span class="article-titulo">${article.titulo}</span><br>
-                        <span class="autor">Autor: ${article.autor}</span><br>
-                        <span>Palavras-chave: ${article.palavraChave.join(', ')}</span>
+                        <span class="artigos-titulo">${artigos.titulo}</span><br>
+                        <span class="autor">Autor: ${artigos.autor}</span><br>
+                        <span>Palavras-chave: ${artigos.palavraChave.join(', ')}</span>
                     </li>
                 `).join('')}
             </ul>
@@ -54,24 +59,41 @@ function performSearch() {
         resultados.innerHTML = "<p>Nenhum resultado encontrado.</p>";
         recomendacoes.innerHTML = '';
     }
+
+    searchButton.textContent = 'Limpar';
+    searchButton.onclick = resetSearch;
+}
+
+function resetSearch() {
+    const searchBar = document.getElementById('search-bar');
+    const resultsDiv = document.getElementById('search-results');
+    const searchButton = document.getElementById('buscar');
+
+
+    searchBar.value = '';
+    resultsDiv.innerHTML = '';
+
+
+    searchButton.textContent = 'Buscar';
+    searchButton.onclick = performSearch;
 }
 
 function generateRecommendations(filteredResults) {
-    const recomendacoes = document.getElementById('recommended-artigos');
+    const recomendacoes = document.getElementById('recommended-articles');
     let recommendedartigos = [];
 
     const allpalavraChave = new Set();
-    filteredResults.forEach(article => {
-        article.palavraChave.forEach(keyword => allpalavraChave.add(keyword.toLowerCase()));
+    filteredResults.forEach(artigos => {
+        artigos.palavraChave.forEach(keyword => allpalavraChave.add(keyword.toLowerCase()));
     });
 
-    artigos.forEach(article => {
-        if (!filteredResults.includes(article)) {
-            const commonpalavraChave = article.palavraChave.filter(keyword => allpalavraChave.has(keyword.toLowerCase()));
+    artigos.forEach(artigos => {
+        if (!filteredResults.includes(artigos)) {
+            const commonpalavraChave = artigos.palavraChave.filter(keyword => allpalavraChave.has(keyword.toLowerCase()));
             if (commonpalavraChave.length > 0) {
                 recommendedartigos.push({
-                    titulo: article.titulo,
-                    autor: article.autor,
+                    titulo: artigos.titulo,
+                    autor: artigos.autor,
                     commonpalavraChave: commonpalavraChave
                 });
             }
@@ -82,11 +104,11 @@ function generateRecommendations(filteredResults) {
         recomendacoes.innerHTML = `
             <p>Recomendações baseadas em sua pesquisa:</p>
             <ul>
-                ${recommendedartigos.map(article => `
+                ${recommendedartigos.map(artigos => `
                     <li>
-                        <span class="article-titulo">${article.titulo}</span><br>
-                        <span class="autor">Autor: ${article.autor}</span><br>
-                        <span>Palavras-chave comuns: ${article.commonpalavraChave.join(', ')}</span>
+                        <span class="artigos-titulo">${artigos.titulo}</span><br>
+                        <span class="autor">Autor: ${artigos.autor}</span><br>
+                        <span>Palavras-chave comuns: ${artigos.commonpalavraChave.join(', ')}</span>
                     </li>
                 `).join('')}
             </ul>
